@@ -14,7 +14,8 @@ module.exports = {
 			},
 			gridTemplateColumns: {
 				list: 'repeat(auto-fill, minmax(400px, max-content))'
-			}
+			},
+
 		}
 	},
 	plugins: [require('@tailwindcss/typography')]
