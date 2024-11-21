@@ -10,10 +10,10 @@ interface SiteConfig {
 }
 
 export const siteConfig: SiteConfig = {
-	site: 'https://blog-template-gray.vercel.app/', // Write here your website url
+	site: 'https://artorias.netlify.app/', // Write here your website url
 	author: 'Jeronimo', // Site author
 	title: '<ArtoriasDevlog />', // Site title.
-	description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', // Description to display in the meta tags
+	description: 'Where i write things', // Description to display in the meta tags
 	lang: 'en-GB',
 	ogLocale: 'en_GB',
 	shareMessage: 'Share this post', // Message to share a post on social media
