@@ -2,6 +2,9 @@
 	main {
 		display: block;
 	}
+    h1 {
+        font-size: 12rem;
+    }
   }
 
   @media (min-width: 500px) {
