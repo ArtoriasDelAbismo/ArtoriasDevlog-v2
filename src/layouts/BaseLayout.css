@@ -1,0 +1,11 @@
+@media (max-width: 500px) {
+	main {
+		display: block;
+	}
+  }
+
+  @media (min-width: 500px) {
+	main {
+		display: grid;
+	}
+  }
