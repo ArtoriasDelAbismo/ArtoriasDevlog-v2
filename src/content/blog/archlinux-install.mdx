@@ -148,6 +148,7 @@ archinstall
 3. Configure the installation by following the options on the screen:
 
 {' '}
+
 <img src='https://res.cloudinary.com/dstfpu5vw/image/upload/v1733139374/archinstall-main_eforof.png' />{' '}
 
 |                       |                                                                |
@@ -189,32 +190,3 @@ reboot
 ```
 
 Congratulations! You’ve successfully installed Arch Linux.
-
-{/\*
-now we will list the drives with **cfdisk**
-
-{' '}
-<img src='https://res.cloudinary.com/dstfpu5vw/image/upload/v1732959883/cfdisk_nwrcqd.png' />
-
-Since we are making a UEFI installation choose **gpt** option and press **enter**.<br/>
-We will then see a list of the disks in our system
-
-{' '}
-<img src='https://res.cloudinary.com/dstfpu5vw/image/upload/v1732960128/disks_wlopsp.png' />
-
-Select the disk you want to install Arch Linux and press enter. If you want to **ONLY** have Arch Linux installed in your machine, select all the drives and delete them, we will end up with all the gigabytes of free space.<br/> Now we are going to create the boot partition, if you are not using more than one kernel, anything from 100MB to 500MB will do, but as i can afford the space and i rather feel safe than sorry i will destine 1GB. Select **New** and create the boot partition.<br/>
-Now we are going to create a new partition for the SWAP system, this can be anything between 4GB and 16GB, this will be destined to the virtual memory partition, used when the regular memory filles up.<br/>
-Next create the last partition whith the rest of the free space.
-Lastly select the **Write** option, you will be prompted whether if are you sure yo want to write the partition table to disk, type **yes** and hit Enter.<br/>
-
-### Format the drives
-
-Ok, next we will need to format all our drives, how can we do that?<br/>
-Let's format our root partitoin first. Type the command
-
-```bash
-lsblk
-```
-
-This is a usefull command to keep track of what's going on with our partitions.
-\*/}
