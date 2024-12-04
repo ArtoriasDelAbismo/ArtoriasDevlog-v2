@@ -1,0 +1,220 @@
+---
+author: Jeromino
+pubDate: 'Dic 04 2024'
+title: 'Installing Arch Linux: A Step-by-Step Guide'
+slug: arch-linux-install
+heroImage: '../../assets/images/ArchLinux.png'
+category: 'Devlog'
+featured: true
+draft: false
+tags:
+  - Linux
+  - Arch Linux
+  - By the way
+description: A no nonsense guide to installing Arch Linux
+---
+
+In my journey through the digital world, I realized that so many things are waiting to be learned, experienced, and enjoyed that I couldn't stick to just one method or workflow. That's when the Linux itch began.
+
+I first tried Ubuntu, known for being beginner-friendly, and later explored Windows Subsystem for Linux (WSL)—a Microsoft Windows feature that allows you to use a Linux environment without needing a virtual machine or dual boot. I still use WSL to this day. However, after three years and a conversation with a friend who was installing Arch Linux at the time, that old itch for distro-hopping resurfaced.
+
+So today, dear reader, we’re diving into Arch Linux. Let’s install it together!
+
+## Preparation
+
+This guide assumes you already have a bootable USB drive with the Arch ISO image. We’ll perform a UEFI installation, so ensure your system supports this modern boot mode.
+
+We’ll be using Archinstall—a helpful tool despite the skepticism of traditional Arch users. While it simplifies the process, it’s a good idea to read through the [Arch Wiki](https://wiki.archlinux.org/title/Installation_guide) to understand the underlying mechanics, as Arch Linux embodies a do-it-yourself philosophy.
+
+We’ll cover manual installation in a future post.
+
+## Step 1: Boot from USB
+
+- Access your BIOS and set the boot priority to USB.
+
+- Insert the flash drive, save your BIOS settings, and exit.
+
+- You should now see the following screen:
+
+<img
+	src='https://res.cloudinary.com/dstfpu5vw/image/upload/v1732916349/first-step_nrogtc.png'
+	alt='Boot screen'
+/>
+Select the first option and press Enter.
+
+- For better readability, increase the font size by typing:
+
+```bash
+setfont ter-132b
+```
+
+## Step 2: Connect to the Internet
+
+A stable internet connection is essential. If using Ethernet, simply plug in the cable. For Wi-Fi, follow these steps using iwctl:
+
+1. Launch the iwctl tool:
+
+```bash
+iwctl
+```
+
+2. List all devices:
+
+```bash
+device list
+```
+
+3. Locate your Wi-Fi device and check it's details:
+
+```bash
+device wlan0 show
+```
+
+4. List available networks:
+
+```bash
+station wlan0 get-networks
+```
+
+5. Connect to your network
+
+```bash
+station wlan0 connect WIFI_NAME
+```
+
+6. Enter your Wi-Fi password and wait a few seconds. Exit iwctl:
+
+```bash
+exit
+```
+
+7. Test the connection:
+
+```bash
+ping google.com
+```
+
+## Step 3: Disk Formatting
+
+1. Sync packages repositories:
+
+```bash
+pacman -Sy
+```
+
+2. Identify connected drives:
+
+```bash
+lsblk
+```
+
+3. For detailed drive information
+
+```bash
+fdisk -l
+```
+
+4. Erease the target drived:
+
+```bash
+gdisk /dev/disk_to_be_ereased
+```
+
+- Press **x** to enter expert mode
+- Press **z** to erease the drive.
+
+5. Verify the disk is clean using **lsblk**
+
+6. Update keyring to ensure package authenticity:
+
+```bash
+pacman -Sy archlinux-keyring
+```
+
+## Step 4: Install Arch Linux with Archinstall
+
+1.  Install Archinstall:
+
+```bash
+pacman -Sy archinstall
+```
+
+2.  Launch the installer
+
+```bash
+archinstall
+```
+
+3. Configure the installation by following the options on the screen:
+
+{' '}
+<img src='https://res.cloudinary.com/dstfpu5vw/image/upload/v1733139374/archinstall-main_eforof.png' />{' '}
+
+|                       |                                                                |
+| --------------------- | -------------------------------------------------------------- |
+| Archinstall Languaje  | Select your preferred language                                 |
+| Mirrors               | Select the mirror closest to your region                       |
+| Locales               | Select the locales corresponding to your language              |
+| Disk configuration    | Use "Best effort partition"                                    |
+| Boot loader           | choose GRUB or the loader of your preference                   |
+| Swap                  | leave default zram                                             |
+| Hostname              | Choose your hostname                                           |
+| Root Password         | Create super strong password that's not 1234                   |
+| User account          | Create a new user with root privileges                         |
+| Profile               | Choose the desktop enviroment of your preference, i choose KDE |
+| Audio                 | Select pipewire                                                |
+| Kernels               | leave default if your not using more than one                  |
+| Additional packages   | Add packages like sudo, grep, etc                              |
+| Network configuration | leave default                                                  |
+| Timezone              | Choose yours                                                   |
+| Automatic time sync   | leave the default true                                         |
+| Optional repositories | leave the default                                              |
+
+Check all the options for a possible missing configuration, if everything's ok, you can save the config for a future installation if you want, and then select install.<br/>
+
+4. Once the installation completes, choose Yes at the post-installation prompt:
+
+   <img src='https://res.cloudinary.com/dstfpu5vw/image/upload/v1733226277/post-installationpromp_jpawdm.png' />
+
+5. Install essential tools:
+
+```bash
+pacman -S firefox git libreoffice-fresh networkmanager
+```
+
+6. Exit the chroot environment and reboot:
+
+```bash
+reboot
+```
+
+Congratulations! You’ve successfully installed Arch Linux.
+
+{/\*
+now we will list the drives with **cfdisk**
+
+{' '}
+<img src='https://res.cloudinary.com/dstfpu5vw/image/upload/v1732959883/cfdisk_nwrcqd.png' />
+
+Since we are making a UEFI installation choose **gpt** option and press **enter**.<br/>
+We will then see a list of the disks in our system
+
+{' '}
+<img src='https://res.cloudinary.com/dstfpu5vw/image/upload/v1732960128/disks_wlopsp.png' />
+
+Select the disk you want to install Arch Linux and press enter. If you want to **ONLY** have Arch Linux installed in your machine, select all the drives and delete them, we will end up with all the gigabytes of free space.<br/> Now we are going to create the boot partition, if you are not using more than one kernel, anything from 100MB to 500MB will do, but as i can afford the space and i rather feel safe than sorry i will destine 1GB. Select **New** and create the boot partition.<br/>
+Now we are going to create a new partition for the SWAP system, this can be anything between 4GB and 16GB, this will be destined to the virtual memory partition, used when the regular memory filles up.<br/>
+Next create the last partition whith the rest of the free space.
+Lastly select the **Write** option, you will be prompted whether if are you sure yo want to write the partition table to disk, type **yes** and hit Enter.<br/>
+
+### Format the drives
+
+Ok, next we will need to format all our drives, how can we do that?<br/>
+Let's format our root partitoin first. Type the command
+
+```bash
+lsblk
+```
+
+This is a usefull command to keep track of what's going on with our partitions.
+\*/}
